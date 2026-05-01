@@ -1,0 +1,166 @@
+{% extends "header.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+
+<main class="max-w-7xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        <section class="lg:col-span-5 space-y-12">
+            <div>
+                <h1 class="font-headline-xl text-headline-xl text-primary mb-4">
+                    Let's start a conversation.
+                </h1>
+                <p class="font-body-lg text-body-lg text-on-surface-variant max-w-md">
+                    Whether you have questions about our scientific methodology or
+                    need help navigating your results, our team of specialists is here
+                    to support your journey.
+                </p>
+            </div>
+            <div class="space-y-8">
+                <div class="flex items-start gap-4">
+                    <div class="bg-surface-container-high p-3 rounded-xl">
+                        <span class="material-symbols-outlined text-primary" data-icon="mail">mail</span>
+                    </div>
+                    <div>
+                        <p class="font-label-bold text-label-bold text-primary">
+                            Email Us
+                        </p>
+                        <p class="text-on-surface-variant">hello@mbtifindyourcareer.insight</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-4">
+                    <div class="bg-surface-container-high p-3 rounded-xl">
+                        <span class="material-symbols-outlined text-primary" data-icon="share">share</span>
+                    </div>
+                    <div>
+                        <p class="font-label-bold text-label-bold text-primary">
+                            Follow Our Research
+                        </p>
+                        <div class="flex gap-4 mt-2">
+                            <a class="text-on-surface-variant hover:text-primary transition-colors" href="#">Twitter</a>
+                            <a class="text-on-surface-variant hover:text-primary transition-colors"
+                                href="#">LinkedIn</a>
+                            <a class="text-on-surface-variant hover:text-primary transition-colors"
+                                href="#">Instagram</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="relative overflow-hidden rounded-xl h-64 bg-surface-variant tinted-shadow">
+                <img class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-60"
+                    data-alt="abstract artistic representation of neural networks and emotional connection with soft blue and purple lighting and fluid shapes"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-hU2jN8KpJN3utM6q-Ckw49bQXmtoFfxSkCX9C5dNMrzce2b7T7XVj4r-1PisjqdGMMUXblGhRU_CFwRFPrnqsX3O8LjVGy8JqYo6bheYSlRH5bCj7AHEHktAr3Oe5X1CFmXQHtVuDpHT-VUYDnzmTTEhPwz8E3_aAvmr5FOZy6i1jMOZXJxaE6Z803zJUBqtYY5sZCKasyspGYTM-vCZajBDlhdksCPDxben7DrGf1urEb_asURja5xb0O9dqCuxjtw3st7yhU49" />
+                <div class="absolute inset-0 p-8 flex flex-col justify-end">
+                    <p class="font-headline-md text-headline-md text-primary">
+                        Scientific clarity for the curious mind.
+                    </p>
+                </div>
+            </div>
+        </section>
+        <section class="lg:col-span-7">
+            <div class="glass-card tinted-shadow border border-surface-variant rounded-xl p-8 md:p-12">
+                <form class="space-y-6" action="{{ url_for('views.submit') }}" method="POST">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="font-label-bold text-label-bold text-on-surface-variant block">Full
+                                Name</label>
+                            <input
+                                class="w-full bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-secondary/20 focus:bg-white p-4 transition-all"
+                                placeholder="Jane Doe" type="text" name="name"
+                                value="{{ session.get('user_name', '') }}" />
+                        </div>
+                        <div class="space-y-2">
+                            <label class="font-label-bold text-label-bold text-on-surface-variant block">Email
+                                Address</label>
+                            <input
+                                class="w-full bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-secondary/20 focus:bg-white p-4 transition-all"
+                                placeholder="jane@example.com" type="email" name="email"
+                                value="{{ session.get('user_email', '') }}" />
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="font-label-bold text-label-bold text-on-surface-variant block">Subject</label>
+                        <select
+                            class="w-full bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-secondary/20 focus:bg-white p-4 transition-all"
+                            name="subject">
+                            <option>General Inquiry</option>
+                            <option>Technical Support</option>
+                            <option>Business Partnerships</option>
+                            <option>Scientific Feedback</option>
+                        </select>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="font-label-bold text-label-bold text-on-surface-variant block">Message</label>
+                        <textarea
+                            class="w-full bg-[#F8FAFC] border-none rounded-lg focus:ring-2 focus:ring-secondary/20 focus:bg-white p-4 transition-all"
+                            placeholder="How can we help you today?" rows="5" name="message"></textarea>
+                    </div>
+                    <button
+                        class="w-full bg-primary text-on-primary font-label-bold py-4 rounded-lg shadow-lg hover:shadow-xl transition-all scale-100 active:scale-95"
+                        type="submit">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </section>
+    </div>
+    <section class="mt-32">
+        <div class="text-center mb-16">
+            <h2 class="font-headline-lg text-headline-lg text-primary mb-4">
+                Frequently Asked Questions
+            </h2>
+            <p class="font-body-md text-body-md text-on-surface-variant">
+                Quick answers to common inquiries about MBTI FIND YOUR CAREER.
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            <div class="space-y-4">
+                <div
+                    class="p-6 bg-white rounded-xl border border-surface-variant hover:border-secondary/30 transition-colors">
+                    <p class="font-label-bold text-label-bold text-primary mb-2">
+                        How accurate are the test results?
+                    </p>
+                    <p class="text-on-surface-variant">
+                        Our assessments are built on the latest psychometric standards,
+                        providing a 94% correlation with long-term clinical
+                        observations.
+                    </p>
+                </div>
+                <div
+                    class="p-6 bg-white rounded-xl border border-surface-variant hover:border-secondary/30 transition-colors">
+                    <p class="font-label-bold text-label-bold text-primary mb-2">
+                        Is my personal data secure?
+                    </p>
+                    <p class="text-on-surface-variant">
+                        We utilize end-to-end encryption. Your specific responses are
+                        anonymized before being processed for analysis.
+                    </p>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div
+                    class="p-6 bg-white rounded-xl border border-surface-variant hover:border-secondary/30 transition-colors">
+                    <p class="font-label-bold text-label-bold text-primary mb-2">
+                        Can I use MBTI FIND YOUR CAREER for hiring?
+                    </p>
+                    <p class="text-on-surface-variant">
+                        Yes, our professional dashboard allows organizations to
+                        integrate personality insights into their talent development
+                        programs.
+                    </p>
+                </div>
+                <div
+                    class="p-6 bg-white rounded-xl border border-surface-variant hover:border-secondary/30 transition-colors">
+                    <p class="font-label-bold text-label-bold text-primary mb-2">
+                        How often should I retake the test?
+                    </p>
+                    <p class="text-on-surface-variant">
+                        We recommend retaking the assessment every 6 months to track
+                        your personal growth and evolving psychological state.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

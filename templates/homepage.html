@@ -1,0 +1,200 @@
+{% extends "header.html" %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+    <main>
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden pt-20 pb-32">
+            <div
+                class="absolute inset-0 z-0 bg-[radial-gradient(circle_at_70%_30%,_#e0e0ff_0%,_transparent_50%)] opacity-40">
+            </div>
+            <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-2 gap-16 items-center relative z-10">
+                <div class="space-y-stack-md">
+                    <span
+                        class="bg-tertiary-fixed text-primary px-4 py-1.5 rounded-full font-label-bold text-xs">DISCOVER
+                        YOUR INNER BLUEPRINT</span>
+                    <h1 class="font-headline-xl text-primary">Unlock the Secrets of Your Personality.</h1>
+                    <p class="font-body-lg text-on-surface-variant max-w-lg">
+                        MBTI FIND YOUR CAREER provides scientifically-backed insights into your unique cognitive patterns.
+                        Understand why you think, feel, and act the way you do.
+                    </p>
+                    <div class="flex gap-4 pt-4">
+                        <a href="{{ url_for('views.test') }}"
+                            class="inline-flex items-center justify-center bg-primary text-on-primary px-8 py-4 rounded-xl font-label-bold shadow-[0_4px_0_0_#070963] hover:translate-y-0.5 active:translate-y-1 transition-all no-underline">
+                            Take the Test
+                        </a>
+                        <a href="{{ url_for('views.personalities') }}"
+                            class="inline-flex items-center justify-center border border-primary text-primary px-8 py-4 rounded-xl font-label-bold hover:bg-surface-container-low transition-colors no-underline">
+                            Explore Types
+                        </a>
+                    </div>
+                    <div class="flex items-center gap-4 pt-4 text-on-surface-variant font-label-sm">
+                        <div class="flex -space-x-2">
+                            <img class="w-8 h-8 rounded-full border-2 border-white"
+                                data-alt="portrait of a confident young woman with curly hair looking directly at the camera with a slight smile"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7H6TKLnq6tkRAFAZzCYt0kbG9NET3kcFzZnOCZeY35Du4DHkkqpdX-buGhvX69TZlwzguR78T8J-tSNOfPShdr6gb9CZU2mPVSN9--IVQ4EGjbsWMcaV5jnam8LQuP-pn-RDyQuxK08AJ-B8ByYJ0Bqcm9yFkbx5qF6HNpfZnKb3Fvz23UI0TPJtij6bazUWGFaiAiPGVOPy-LpR70ZuN1YHKSR2VH6jjUMvTmD04-k3SzffQ7MeOEZc80W2MfmGJIQRY9RJ0ZXk3" />
+                            <img class="w-8 h-8 rounded-full border-2 border-white"
+                                data-alt="close-up portrait of a smiling middle-aged man with short hair and clean-shaven face in professional lighting"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1EtQzKZRfgHFVabqQAVmhxLFHi-EEaWh3p7yJKcQX_1NUbgZXvm88z2OctMEzQ0DsRNiHYTqTZgslfhLwRmB5LcHK1AV5122Tb5l8N7IhHPWjGeYygoKIxiF5AVm0M_simzhJ5oF93i6YbF9Mik672RWzN1T7zlckD4jda-HkSazCREs0BxQIam4aQlTEFIp_EUZeIDSx9WrWdKDWMr6dj4mcWMNFPISdu0s2i66AwPZIRQ0nnGgYh-uf4ZZ6bQMRQdneJMsA8zUV" />
+                            <img class="w-8 h-8 rounded-full border-2 border-white"
+                                data-alt="studio portrait of a young woman with a neutral expression and soft natural lighting against a plain background"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfzrl8QTizDPwnUFFAK9zPbn-Tza7n23RqpYY4Vw3R_GfQinqNDcKJ2yntICQIEk8Mt59XLyeA-lvQ_dBRi-x8kGaENzyo1OmO86XcDxUZ22fpxrXxItN8Jhi0tf27h91ezJrZFo22NE94UNEHLkN1wIb6l4PXoYQXSu5npDMRhHsSu71zrxTtwF8hXzfCMY8oSva3FfaNnHksPRTeQfjiQnB0XKXYiIbFJl6P_Lk9Z0wEOppBfHglktekfqsA41mj5sjeNjvKzbz2" />
+                        </div>
+                        <span>Join 50k+ others who found their path</span>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="w-full aspect-square rounded-[3rem] overflow-hidden shadow-2xl rotate-3">
+                        <img alt="MindMirror Insight" class="w-full h-full object-cover"
+                            data-alt="abstract artistic visualization of human consciousness with flowing purple and blue energy waves in a clean minimalist environment"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA-LD9Olmc9fKTjBYe93WeQeM4JEBt_DFascUQBP3HCrOmEsWMaPNNrRkgWgjb6tsSeMxuKLugrN4bmDDXrwZwlcLx_6vJCThO0S2vSCWGR8QS401-GTuC6OXSDNMcPTfcqqK-Tq8bpuGq9ydCsNAAdbp9_vL1XvGCGRYJA-SFW2HM3VhATH2Zsi6CYU9zzwJ_HfXeXJTfhQYNiZ2bSXuVMLI6L6hx3Hl7Mr0pktb37-K8yEGQGUM9_Rdk4Cgpk0bqjyFqrC87yHKug" />
+                    </div>
+                    <div
+                        class="absolute -bottom-6 -left-6 glass-card p-6 rounded-2xl shadow-xl max-w-[200px] -rotate-3 border border-white/50">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="material-symbols-outlined text-secondary"
+                                style="font-variation-settings: 'FILL' 1;">psychology</span>
+                            <span class="font-label-bold text-on-surface">INTJ-A</span>
+                        </div>
+                        <p class="text-xs text-on-surface-variant">The Architect: Imaginative and strategic thinkers.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- What is MBTI Section -->
+        <section class="py-24 bg-surface-container-low">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="text-center mb-16 space-y-4">
+                    <h2 class="font-headline-lg text-primary">The Foundation of Self-Discovery</h2>
+                    <p class="font-body-md text-on-surface-variant max-w-2xl mx-auto">
+                        Based on Carl Jung’s theory of psychological types, the Myers-Briggs Type Indicator (MBTI)
+                        explores how we perceive the world and make decisions.
+                    </p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-gutter">
+                    <!-- Introversion vs Extraversion -->
+                    <div
+                        class="bg-white p-8 rounded-xl shadow-sm border border-outline-variant/30 text-center space-y-4">
+                        <div class="w-12 h-12 bg-secondary-fixed rounded-full flex items-center justify-center mx-auto">
+                            <span class="material-symbols-outlined text-secondary">group</span>
+                        </div>
+                        <h3 class="font-headline-md text-primary text-lg">Social Energy</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">Where do you focus your attention?
+                            Getting energy from people (E) or solitude (I).</p>
+                    </div>
+                    <!-- Sensing vs Intuition -->
+                    <div
+                        class="bg-white p-8 rounded-xl shadow-sm border border-outline-variant/30 text-center space-y-4">
+                        <div class="w-12 h-12 bg-secondary-fixed rounded-full flex items-center justify-center mx-auto">
+                            <span class="material-symbols-outlined text-secondary">visibility</span>
+                        </div>
+                        <h3 class="font-headline-md text-primary text-lg">Information</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">How do you process info? Focus on
+                            facts (S) or patterns and possibilities (N).</p>
+                    </div>
+                    <!-- Thinking vs Feeling -->
+                    <div
+                        class="bg-white p-8 rounded-xl shadow-sm border border-outline-variant/30 text-center space-y-4">
+                        <div class="w-12 h-12 bg-secondary-fixed rounded-full flex items-center justify-center mx-auto">
+                            <span class="material-symbols-outlined text-secondary">balance</span>
+                        </div>
+                        <h3 class="font-headline-md text-primary text-lg">Decisions</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">How do you make choices? Using logic
+                            (T) or social harmony and values (F).</p>
+                    </div>
+                    <!-- Judging vs Perceiving -->
+                    <div
+                        class="bg-white p-8 rounded-xl shadow-sm border border-outline-variant/30 text-center space-y-4">
+                        <div class="w-12 h-12 bg-secondary-fixed rounded-full flex items-center justify-center mx-auto">
+                            <span class="material-symbols-outlined text-secondary">calendar_today</span>
+                        </div>
+                        <h3 class="font-headline-md text-primary text-lg">Lifestyle</h3>
+                        <p class="text-sm text-on-surface-variant leading-relaxed">How do you organize? Preferring
+                            structure (J) or flexibility and spontaneity (P).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Benefits Bento Grid -->
+        <section class="py-24">
+            <div class="max-w-7xl mx-auto px-6">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    <div class="space-y-4">
+                        <h2 class="font-headline-lg text-primary">Why Know Your Type?</h2>
+                        <p class="font-body-md text-on-surface-variant max-w-xl">
+                            Self-awareness is the ultimate competitive advantage. Knowing your MBTI type impacts every
+                            facet of your life.
+                        </p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 md:grid-rows-2 gap-6 h-auto md:h-[600px]">
+                    <!-- Career Growth -->
+                    <div
+                        class="md:col-span-2 md:row-span-1 bg-primary text-on-primary p-10 rounded-3xl relative overflow-hidden flex flex-col justify-end">
+                        <div class="absolute top-0 right-0 p-10">
+                            <span class="material-symbols-outlined text-6xl opacity-20">work</span>
+                        </div>
+                        <div class="relative z-10">
+                            <h3 class="font-headline-md mb-4">Accelerate Your Career</h3>
+                            <p class="font-body-md text-primary-fixed-dim max-w-md">Align your professional role with
+                                your cognitive strengths. Find the work environments where you naturally thrive and
+                                lead.</p>
+                        </div>
+                    </div>
+                    <!-- Relationships -->
+                    <div
+                        class="md:col-span-1 md:row-span-2 bg-secondary-container text-white p-10 rounded-3xl relative overflow-hidden flex flex-col justify-between">
+                        <div>
+                            <h3 class="font-headline-md mb-4">Deepen Relationships</h3>
+                            <p class="font-body-md text-secondary-fixed-dim">Understand communication styles to resolve
+                                conflicts faster and build stronger emotional bonds with friends and family.</p>
+                        </div>
+                        <div class="pt-8">
+                            <img class="rounded-2xl shadow-lg border border-white/20"
+                                data-alt="a group of diverse friends laughing and talking together in a cozy bright living room setting"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwu7V0EEMM8PiNdWckd78HqjRxbXMHvFeoabC45IJ-kIVA2ZcWbE5PSua1CrUtyie4LLhffiv4MMiWUKDSW_M_A9VSIyCwTgI4iemf9cz3VYAhoE9PCSPKlZPEl24NBaGv8mHKZnMggWmijjGfkihFqBKXRVYKB1OljsyezTrQxKClTB8U9nVwMWR0Md342CTz7vxVX7J_Q8KWlZj6Pb-13UjoSP3V2V9y4aiN8jaSPyta1EIhy8L7fgz6J8DvXp-MOK-pvTZZvbFf" />
+                        </div>
+                    </div>
+                    <!-- Personal Growth -->
+                    <div
+                        class="md:col-span-1 md:row-span-1 bg-surface-container-high p-10 rounded-3xl flex flex-col justify-center gap-4">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
+                            <span class="material-symbols-outlined text-primary">trending_up</span>
+                        </div>
+                        <h3 class="font-headline-md text-primary">Self Mastery</h3>
+                        <p class="text-sm text-on-surface-variant">Identify your blind spots and develop strategies to
+                            overcome innate challenges in your personality profile.</p>
+                    </div>
+                    <!-- Community -->
+                    <div
+                        class="md:col-span-1 md:row-span-1 bg-tertiary-fixed p-10 rounded-3xl flex flex-col justify-center gap-4">
+                        <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
+                            <span class="material-symbols-outlined text-tertiary">diversity_3</span>
+                        </div>
+                        <h3 class="font-headline-md text-tertiary">Global Context</h3>
+                        <p class="text-sm text-on-tertiary-fixed-variant">See how you relate to the general population
+                            and find your community of like-minded individuals.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- CTA Section -->
+        <section class="py-24 bg-primary relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_80%,_#393e8e_0%,_transparent_40%)]"></div>
+            <div class="max-w-4xl mx-auto px-6 text-center relative z-10 space-y-stack-md">
+                <h2 class="font-headline-xl text-white">Ready to meet your true self?</h2>
+                <p class="font-body-lg text-primary-fixed-dim">The test takes less than 10 minutes and provides a
+                    lifetime of insight.</p>
+                <div class="pt-8">
+                    <a href="{{ url_for('views.test') }}"
+                        class="inline-flex items-center justify-center bg-white text-primary px-12 py-5 rounded-full font-label-bold text-lg shadow-xl hover:scale-105 active:scale-95 transition-all no-underline">
+                        Start Free Assessment
+                    </a>
+
+                    <p class="text-primary-fixed-dim text-xs mt-4">Registration required to see results.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+{% endblock %}

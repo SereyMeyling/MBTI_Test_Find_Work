@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{% block title %}MBTI FIND YOUR CAREER | Discover Your True Self{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;600;700;800;900&amp;family=Manrope:wght@400;500;700&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Khmer:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body>
+    <!-- Top Navigation Bar -->
+    <header
+        class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md font-['Epilogue'] antialiased text-sm tracking-tight shadow-sm shadow-indigo-100/20 dark:shadow-none border-b border-slate-200/50 dark:border-slate-800/50 docked full-width top-0 sticky z-50">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-7xl mx-auto">
+            <div class="text-xl font-bold tracking-tighter text-indigo-900 dark:text-indigo-100">MBTI FIND YOUR CAREER
+            </div>
+            {% set current_endpoint = request.endpoint or '' %}
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="{{ 'text-indigo-900 dark:text-indigo-300 border-b-2 border-indigo-900 dark:border-indigo-300 pb-1 font-semibold' if current_endpoint == 'views.home' else 'text-slate-500 dark:text-slate-400 hover:text-indigo-800 dark:hover:text-indigo-200 transition-colors' }}"
+                    href="{{ url_for('views.home') }}">Home</a>
+                <a class="{{ 'text-indigo-900 dark:text-indigo-300 border-b-2 border-indigo-900 dark:border-indigo-300 pb-1 font-semibold' if current_endpoint == 'views.test' else 'text-slate-500 dark:text-slate-400 hover:text-indigo-800 dark:hover:text-indigo-200 transition-colors' }}"
+                    href="{{ url_for('views.test') }}">Take Test</a>
+                <a class="{{ 'text-indigo-900 dark:text-indigo-300 border-b-2 border-indigo-900 dark:border-indigo-300 pb-1 font-semibold' if current_endpoint == 'views.personalities' else 'text-slate-500 dark:text-slate-400 hover:text-indigo-800 dark:hover:text-indigo-200 transition-colors' }}"
+                    href="{{ url_for('views.personalities') }}">Personalities</a>
+                <a class="{{ 'text-indigo-900 dark:text-indigo-300 border-b-2 border-indigo-900 dark:border-indigo-300 pb-1 font-semibold' if current_endpoint == 'views.contact' else 'text-slate-500 dark:text-slate-400 hover:text-indigo-800 dark:hover:text-indigo-200 transition-colors' }}"
+                    href="{{ url_for('views.contact') }}">Contact</a>
+            </nav>
+            <a href="{{ url_for('views.home') }}" class="flex items-center" aria-label="Go to home page">
+                <img src="{{ url_for('static', filename='khmer.gif') }}" alt="Khmer flag"
+                    class="h-8 w-8 rounded-sm object-cover border border-slate-300 dark:border-slate-700 shrink-0"
+                    loading="eager" decoding="async" />
+            </a>
+            {% if session.get('user_id') %}
+            <div class="flex items-center gap-4">
+                <span class="text-slate-600 dark:text-slate-300 text-sm">{{ session.get('user_name', 'User') }}</span>
+                <a class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-bold scale-95 active:scale-90 transition-transform shadow-md"
+                    href="{{ url_for('auth.logout') }}">
+                    Logout
+                </a>
+            </div>
+            {% else %}
+            <a class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-bold scale-95 active:scale-90 transition-transform shadow-md"
+                href="{{ url_for('auth.login') }}">
+                Sign In
+            </a>
+            {% endif %}
+        </div>
+    </header>
+    {% block content %}{% endblock %}
+    {% include "footer.html" %}
+</body>
+
+</html>

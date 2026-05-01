@@ -1,0 +1,187 @@
+{% extends "header.html" %} {% block title %}MBTI Test{% endblock %} {% block
+content %}
+
+<main class="max-w-4xl mx-auto px-4 py-12">
+  <form id="mbtiForm" action="{{ url_for('views.test') }}" method="POST">
+    {% for q in questions %}
+    <div
+      class="question-container space-y-gutter"
+      id="q-container-{{ loop.index }}"
+      style="display: {% if loop.first %}block{% else %}none{% endif %};"
+    >
+      <!-- Progress Header -->
+      <div class="mb-stack-lg text-center">
+        <span
+          class="font-label-bold text-secondary uppercase tracking-widest mb-2 block"
+        >
+          Question {{ loop.index }} of {{ questions|length }}
+        </span>
+        <div
+          class="w-full bg-surface-container-high h-3 rounded-full overflow-hidden mb-4"
+        >
+          <div
+            class="bg-secondary h-full transition-all duration-500"
+            style="width: {{ (loop.index / questions|length) * 100 }}%;"
+          ></div>
+        </div>
+        <p class="text-on-surface-variant font-body-lg">
+          សូមឆ្លើយដោយស្មោះត្រង់។ មិនមានចម្លើយខុស ឬត្រូវឡើយ។
+        </p>
+      </div>
+
+      <!-- Question Card -->
+      <section
+        class="glass-card p-gutter rounded-xl border border-outline-variant/30 tinted-shadow bg-white"
+      >
+        <h3 class="font-headline-md text-primary mb-stack-md text-center">
+          {{ q.text }}
+        </h3>
+
+        <div
+          class="flex flex-col md:flex-row items-center justify-between gap-gutter"
+        >
+          <span
+            class="font-label-bold text-on-surface-variant text-xs uppercase"
+            >Disagree</span
+          >
+
+          <div class="flex items-center justify-between w-full max-w-lg gap-4">
+            <!-- Radio buttons តំណាងឱ្យពិន្ទុ 1 ដល់ 5 -->
+            {% for score in range(1, 6) %}
+            <label
+              class="relative flex flex-col items-center cursor-pointer group"
+            >
+              <input
+                class="peer sr-only"
+                name="q{{ q.id }}"
+                type="radio"
+                value="{{ score }}"
+                required
+                onchange="updateQuestionState({{ loop.index }}, true)"
+              />
+              <div
+                class="{% if score == 1 or score == 5 %}w-12 h-12{% elif score == 2 or score == 4 %}w-10 h-10{% else %}w-8 h-8{% endif %} rounded-full border-2 border-outline-variant bg-white shadow-sm transition-all duration-200 transform group-hover:scale-105 peer-checked:border-emerald-700 peer-checked:shadow-2xl peer-focus-visible:ring-4 peer-focus-visible:ring-emerald-200"
+              >
+                <div
+                  class="w-full h-full rounded-full transform transition-transform duration-150 scale-95 peer-checked:scale-100 bg-gradient-to-b from-emerald-500 to-emerald-600"
+                ></div>
+              </div>
+            </label>
+            {% endfor %}
+          </div>
+
+          <span
+            class="font-label-bold text-on-surface-variant text-xs uppercase"
+            >Agree</span
+          >
+        </div>
+      </section>
+
+      <!-- Control Buttons -->
+      <div class="flex justify-center pt-stack-md gap-4">
+        {% if not loop.first %}
+        <button
+          type="button"
+          onclick="prevStep({{ loop.index }})"
+          class="bg-surface-container text-primary font-label-bold px-8 py-4 rounded-full border border-outline-variant"
+        >
+          Back
+        </button>
+        {% endif %} {% if not loop.last %}
+        <button
+          type="button"
+          id="next-btn-{{ loop.index }}"
+          onclick="nextStep({{ loop.index }})"
+          disabled
+          class="bg-primary text-on-primary font-label-bold px-12 py-4 rounded-full shadow-lg disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
+        >
+          Next Question
+        </button>
+        {% else %}
+        <button
+          type="submit"
+          class="bg-green-600 text-white font-label-bold px-12 py-4 rounded-full shadow-lg"
+        >
+          Submit Results
+        </button>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </form>
+</main>
+
+<script>
+  function updateQuestionState(index) {
+    const currentInputs = document.querySelectorAll(
+      `#q-container-${index} input[type="radio"]`,
+    );
+    const nextButton = document.getElementById(`next-btn-${index}`);
+
+    const isChecked = Array.from(currentInputs).some((input) => input.checked);
+    if (nextButton) {
+      nextButton.disabled = !isChecked;
+    }
+
+    // Auto-advance when user selects an option (only if there's a next button)
+    if (
+      isChecked &&
+      nextButton &&
+      (typeof arguments[1] === "boolean" ? arguments[1] : false)
+    ) {
+      // initialize timeout store
+      window._advanceTimeouts = window._advanceTimeouts || {};
+      if (window._advanceTimeouts[index]) {
+        clearTimeout(window._advanceTimeouts[index]);
+      }
+      // small delay to allow the checked style to render
+      window._advanceTimeouts[index] = setTimeout(function () {
+        // ensure still visible and still checked
+        const container = document.getElementById(`q-container-${index}`);
+        if (container && container.style.display !== "none") {
+          const stillChecked = Array.from(currentInputs).some((i) => i.checked);
+          if (stillChecked) nextStep(index);
+        }
+        delete window._advanceTimeouts[index];
+      }, 220);
+    }
+  }
+
+  function nextStep(index) {
+    // ឆែកមើលថាមានរើសចម្លើយឬនៅ
+    const currentInputs = document.querySelectorAll(
+      `#q-container-${index} input[type="radio"]`,
+    );
+    const isChecked = Array.from(currentInputs).some((input) => input.checked);
+
+    if (!isChecked) {
+      alert("សូមជ្រើសរើសចម្លើយមួយមុននឹងបន្ត!");
+      return;
+    }
+
+    // លាក់សំណួរបច្ចុប្បន្ន បង្ហាញសំណួរបន្ទាប់
+    document.getElementById(`q-container-${index}`).style.display = "none";
+    document.getElementById(`q-container-${index + 1}`).style.display = "block";
+    // update state of the newly shown question so its next button reflects any previous selection
+    updateQuestionState(index + 1);
+    window.scrollTo(0, 0);
+  }
+
+  function prevStep(index) {
+    document.getElementById(`q-container-${index}`).style.display = "none";
+    document.getElementById(`q-container-${index - 1}`).style.display = "block";
+    // ensure Next button on the previous question is set correctly when returning
+    updateQuestionState(index - 1);
+    window.scrollTo(0, 0);
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    document
+      .querySelectorAll(".question-container")
+      .forEach(function (_, position) {
+        updateQuestionState(position + 1);
+      });
+  });
+</script>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "header.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<main class="min-h-[calc(100vh-80px)] flex items-center justify-center px-6 py-12 bg-slate-50">
+    <section class="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-lg">
+        <div class="text-center mb-8">
+            <div class="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-on-primary">
+                <span class="material-symbols-outlined">psychology</span>
+            </div>
+            <h1 class="text-3xl font-bold text-slate-900">MBTI FIND YOUR CAREER</h1>
+            <p class="mt-2 text-sm text-slate-500">Sign in to continue your journey of self-discovery.</p>
+        </div>
+
+        <form class="space-y-5" action="{{ url_for('auth.login') }}" method="POST">
+            <div>
+                <label class="mb-2 block text-sm font-semibold text-slate-700" for="email">Email Address</label>
+                <input
+                    class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                    id="email" name="email" type="email" placeholder="name@example.com" />
+            </div>
+
+            <div>
+                <div class="mb-2 flex items-center justify-between">
+                    <label class="block text-sm font-semibold text-slate-700" for="password">Password</label>
+                    <a class="text-sm text-secondary hover:underline" href="#">Forgot Password?</a>
+                </div>
+                <input
+                    class="w-full rounded-lg border border-slate-300 px-4 py-3 outline-none transition focus:border-secondary focus:ring-2 focus:ring-secondary/20"
+                    id="password" name="password" type="password" placeholder="••••••••" />
+            </div>
+
+            <button
+                class="w-full rounded-lg bg-primary py-3.5 font-semibold text-on-primary transition hover:opacity-95"
+                type="submit">Sign In</button>
+        </form>
+
+        <div class="my-6 flex items-center gap-4">
+            <div class="h-px flex-1 bg-slate-200"></div>
+            <span class="text-xs uppercase tracking-[0.2em] text-slate-400">Or continue with</span>
+            <div class="h-px flex-1 bg-slate-200"></div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+            <button type="button"
+                class="rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">Google</button>
+            <button type="button"
+                class="rounded-lg border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50">Apple</button>
+        </div>
+
+        <p class="mt-6 text-center text-sm text-slate-500">
+            Don't have an account?
+            <a class="font-semibold text-secondary hover:underline" href="{{ url_for('views.register') }}">Create an
+                account</a>
+        </p>
+    </section>
+</main>
+{% endblock %}

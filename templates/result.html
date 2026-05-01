@@ -1,0 +1,93 @@
+{% extends "header.html" %}
+{% block title %}Your Result{% endblock %}
+{% block content %}
+
+<main class="relative overflow-hidden py-16">
+    <div
+        class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(79,70,229,0.16),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(16,185,129,0.12),_transparent_30%)]">
+    </div>
+
+    <section class="relative z-10 max-w-5xl mx-auto px-6">
+        <div class="text-center mb-10 space-y-4">
+            <span
+                class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-outline-variant text-secondary font-label-bold tracking-widest uppercase text-xs shadow-sm">
+                Assessment Complete
+            </span>
+            <h1 class="font-headline-xl text-primary">Your MBTI Type</h1>
+            <div class="inline-flex items-center justify-center px-6 py-3 rounded-2xl bg-primary text-white shadow-lg">
+                <span class="font-headline-lg text-4xl tracking-[0.25em]">{{ mbti }}</span>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <article
+                class="lg:col-span-2 glass-card rounded-3xl border border-outline-variant/40 p-8 shadow-xl tinted-shadow">
+                <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+                    <div>
+                        <p class="text-sm uppercase tracking-widest text-on-surface-variant font-label-bold mb-2">Type
+                            Profile</p>
+                        <h2 class="font-headline-lg text-primary">{{ info.title if info else 'Personality Overview' }}
+                        </h2>
+                    </div>
+                    <a href="{{ url_for('views.test') }}"
+                        class="inline-flex items-center justify-center px-5 py-3 rounded-full border border-primary text-primary font-label-bold hover:bg-primary hover:text-white transition-colors">
+                        Retake Test
+                    </a>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-label-bold text-secondary uppercase tracking-widest text-xs mb-3">Description
+                        </h3>
+                        <p class="text-on-surface-variant leading-8 text-base md:text-lg">
+                            {{ info.description if info else 'No personality description was found for this type yet.'
+                            }}
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="bg-surface-container-low rounded-2xl p-6 border border-outline-variant/30">
+                            <h3 class="font-label-bold text-primary uppercase tracking-widest text-xs mb-3">Best Fit
+                                Careers</h3>
+                            <p class="text-on-surface-variant leading-7 whitespace-pre-line">
+                                {{ info.suitable_jobs if info and info.suitable_jobs else 'Career suggestions are not
+                                available yet.' }}
+                            </p>
+                        </div>
+
+                        <div class="bg-primary/5 rounded-2xl p-6 border border-primary/10">
+                            <h3 class="font-label-bold text-primary uppercase tracking-widest text-xs mb-3">Snapshot
+                            </h3>
+                            <p class="text-on-surface-variant leading-7">
+                                Your result gives a quick picture of how you prefer to think, decide, and work with
+                                others. Use it as a starting point for reflection, not a limitation.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+
+            <aside class="space-y-6">
+                <div class="glass-card rounded-3xl border border-outline-variant/40 p-6 shadow-lg">
+                    <h3 class="font-headline-md text-primary mb-3">What to do next</h3>
+                    <ul class="space-y-3 text-on-surface-variant leading-7">
+                        <li>Read the description carefully and compare it with your real habits.</li>
+                        <li>Check which careers match your preferences and strengths.</li>
+                        <li>Share the result with someone who knows you well for a second opinion.</li>
+                    </ul>
+                </div>
+
+                <div class="bg-secondary text-white rounded-3xl p-6 shadow-xl">
+                    <p class="text-xs uppercase tracking-[0.3em] opacity-80 mb-2">Result Type</p>
+                    <div class="text-5xl font-headline-xl tracking-[0.25em]">{{ mbti }}</div>
+                    <p class="mt-4 text-secondary-fixed-dim leading-7">
+                        This page is ready to display richer MBTI information from the database when you add more
+                        personality rows.
+                    </p>
+                </div>
+            </aside>
+        </div>
+    </section>
+</main>
+
+{% endblock %}
