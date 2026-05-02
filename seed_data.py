@@ -1,5 +1,6 @@
 from main import create_app, db
 from models.questions import Question
+from models.personality_info import PersonalityInfo
 
 questions_list = [
     # E / I — Extraversion vs Introversion (1–18)
@@ -81,12 +82,32 @@ questions_list = [
     {"q": "Q70", "txt": "អ្នកមានអារម្មណ៍រំភើបចំពោះការចាប់ផ្តើមថ្មី។", "dim": "J/P"}
 ]
 
+personality_list = [
+    ("INTJ", "The Architect",     "Strategic, independent, and determined. INTJs are driven by their own original ideas and are natural perfectionists.",           "Engineer\nScientist\nStrategist\nAnalyst"),
+    ("INTP", "The Thinker",       "Analytical, objective, and reserved. INTPs love logical analysis and are constantly exploring new ideas and theories.",          "Programmer\nPhilosopher\nResearcher\nMathematician"),
+    ("ENTJ", "The Commander",     "Bold, imaginative, and strong-willed. ENTJs are natural-born leaders who find a way to achieve their goals.",                   "CEO\nLawyer\nManager\nPolitician"),
+    ("ENTP", "The Debater",       "Smart, curious, and love intellectual challenges. ENTPs enjoy playing devil's advocate and brainstorming new ideas.",            "Entrepreneur\nConsultant\nInventor\nDebater"),
+    ("INFJ", "The Advocate",      "Quiet, idealistic, and principled. INFJs are the rarest type — deeply caring and driven by a vision for a better world.",       "Counselor\nWriter\nPsychologist\nActivist"),
+    ("INFP", "The Mediator",      "Poetic, kind, and altruistic. INFPs are guided by their values and always looking for ways to make things better.",             "Writer\nCounselor\nArtist\nMusician"),
+    ("ENFJ", "The Protagonist",   "Charismatic and empathetic natural leaders. ENFJs are passionate about helping others reach their potential.",                  "Teacher\nCoach\nDiplomat\nHR Manager"),
+    ("ENFP", "The Campaigner",    "Enthusiastic, creative, and sociable. ENFPs see life as full of possibilities and love connecting with people.",                "Journalist\nActor\nMarketer\nLife Coach"),
+    ("ISTJ", "The Logistician",   "Practical, fact-minded, and reliable. ISTJs take responsibility seriously and are known for their integrity and dedication.",   "Accountant\nAuditor\nManager\nMilitary Officer"),
+    ("ISFJ", "The Defender",      "Dedicated, warm, and protective. ISFJs are always ready to defend those they care about and work hard behind the scenes.",      "Nurse\nTeacher\nSocial Worker\nLibrarian"),
+    ("ESTJ", "The Executive",     "Organized, honest, and dedicated. ESTJs represent tradition and order and are excellent at managing tasks and people.",         "Manager\nJudge\nFinancial Officer\nPolice Officer"),
+    ("ESFJ", "The Consul",        "Caring, social, and popular. ESFJs are attentive to others' needs and work hard to maintain harmony in their environment.",    "Teacher\nHealthcare Worker\nEvent Planner\nReceptionist"),
+    ("ISTP", "The Virtuoso",      "Bold, practical, and experimental. ISTPs love to explore with their hands and eyes — they thrive on action and mechanics.",    "Mechanic\nEngineer\nForensic Scientist\nPilot"),
+    ("ISFP", "The Adventurer",    "Flexible, charming, and artistic. ISFPs are true artists who love expressing themselves through their work and surroundings.", "Artist\nMusician\nDesigner\nChef"),
+    ("ESTP", "The Entrepreneur",  "Smart, energetic, and perceptive. ESTPs are the life of the party and always looking for bold new ways to tackle challenges.", "Entrepreneur\nMarketer\nDetective\nSports Coach"),
+    ("ESFP", "The Entertainer",   "Spontaneous, energetic, and enthusiastic. ESFPs love life and people — they make everything more fun and exciting.",           "Performer\nEvent Planner\nSales Rep\nFlight Attendant"),
+]
+
 app = create_app()
+
 def run_seed():
     with app.app_context():
         print("កំពុងត្រួតពិនិត្យទិន្នន័យក្នុង Database...")
-        
-      
+
+        # ===== QUESTIONS =====
         existing_count = Question.query.count()
         if existing_count > 0:
             print(f"រកឃើញសំណួរចំនួន {existing_count} រួចរាល់ហើយ។ តើអ្នកចង់លុបចោលហើយដាក់ថ្មី? (y/n)")
@@ -96,24 +117,46 @@ def run_seed():
                 db.session.commit()
                 print("បានលុបទិន្នន័យចាស់រួចរាល់។")
             else:
-                print("ផ្អាកការបញ្ចូលទិន្នន័យ។")
-                return
+                print("ផ្អាកការបញ្ចូលទិន្នន័យសំណួរ។")
 
-        # ចាប់ផ្ដើមបញ្ចូលសំណួរ
-        for item in questions_list:
-            new_q = Question(
-                question=item['q'],
-                text=item['txt'],
-                dimension=item['dim']
-            )
-            db.session.add(new_q)
-        
-        try:
-            db.session.commit()
-            print("ជោគជ័យ! សំណួរទាំង ៧០ ត្រូវបានបញ្ចូលទៅក្នុង Database 'mbti'។")
-        except Exception as e:
-            db.session.rollback()
-            print(f"មានបញ្ហាក្នុងការបញ្ចូលទិន្នន័យ៖ {e}")
+        if Question.query.count() == 0:
+            for item in questions_list:
+                db.session.add(Question(
+                    question=item['q'],
+                    text=item['txt'],
+                    dimension=item['dim']
+                ))
+            try:
+                db.session.commit()
+                print("ជោគជ័យ! សំណួរទាំង ៧០ ត្រូវបានបញ្ចូលទៅក្នុង Database 'mbti'។")
+            except Exception as e:
+                db.session.rollback()
+                print(f"មានបញ្ហាក្នុងការបញ្ចូលសំណួរ៖ {e}")
+
+        # ===== PERSONALITY INFO =====
+        existing_personality = PersonalityInfo.query.count()
+        if existing_personality > 0:
+            print(f"រកឃើញ Personality ចំនួន {existing_personality} រួចរាល់ហើយ។ តើអ្នកចង់លុបចោលហើយដាក់ថ្មី? (y/n)")
+            choice = input()
+            if choice.lower() == 'y':
+                PersonalityInfo.query.delete()
+                db.session.commit()
+                print("បានលុប Personality ចាស់រួចរាល់។")
+
+        if PersonalityInfo.query.count() == 0:
+            for code, title, desc, jobs in personality_list:
+                db.session.add(PersonalityInfo(
+                    code=code,
+                    title=title,
+                    description=desc,
+                    suitable_jobs=jobs
+                ))
+            try:
+                db.session.commit()
+                print(f"ជោគជ័យ! Personality ទាំង {len(personality_list)} ត្រូវបានបញ្ចូលរួចរាល់។")
+            except Exception as e:
+                db.session.rollback()
+                print(f"មានបញ្ហាក្នុងការបញ្ចូល Personality៖ {e}")
 
 if __name__ == "__main__":
     run_seed()

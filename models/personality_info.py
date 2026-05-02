@@ -1,7 +1,7 @@
 from dbs.connection import db
 
 class PersonalityInfo(db.Model):
-    tablename = 'personality_info'
+    __tablename__ = 'personality_info'
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String(4), unique=True) 
     title = db.Column(db.String(100))         

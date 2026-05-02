@@ -46,24 +46,25 @@ content %}
           >
 
           <div class="flex items-center justify-between w-full max-w-lg gap-4">
-            <!-- Radio buttons តំណាងឱ្យពិន្ទុ 1 ដល់ 5 -->
-            {% for score in range(1, 6) %}
+            {% set qidx = loop.index %} {% for score in range(1, 6) %}
             <label
               class="relative flex flex-col items-center cursor-pointer group"
             >
               <input
-                class="peer sr-only"
+                class="sr-only radio-input"
                 name="q{{ q.id }}"
                 type="radio"
                 value="{{ score }}"
                 required
-                onchange="updateQuestionState({{ loop.index }}, true)"
+                data-qidx="{{ qidx }}"
+                onchange="handleRadioChange(this)"
               />
+              <!-- FIX: use JS-driven selected class instead of peer-checked -->
               <div
-                class="{% if score == 1 or score == 5 %}w-12 h-12{% elif score == 2 or score == 4 %}w-10 h-10{% else %}w-8 h-8{% endif %} rounded-full border-2 border-outline-variant bg-white shadow-sm transition-all duration-200 transform group-hover:scale-105 peer-checked:border-emerald-700 peer-checked:shadow-2xl peer-focus-visible:ring-4 peer-focus-visible:ring-emerald-200"
+                class="radio-circle {% if score == 1 or score == 5 %}w-12 h-12{% elif score == 2 or score == 4 %}w-10 h-10{% else %}w-8 h-8{% endif %} rounded-full border-2 border-outline-variant bg-white shadow-sm transition-all duration-200 transform group-hover:scale-110 flex items-center justify-center"
               >
                 <div
-                  class="w-full h-full rounded-full transform transition-transform duration-150 scale-95 peer-checked:scale-100 bg-gradient-to-b from-emerald-500 to-emerald-600"
+                  class="radio-dot w-3/4 h-3/4 rounded-full transition-all duration-150 scale-0 bg-gradient-to-b from-emerald-500 to-emerald-600 shadow-md"
                 ></div>
               </div>
             </label>
@@ -112,75 +113,101 @@ content %}
 </main>
 
 <script>
-  function updateQuestionState(index) {
-    const currentInputs = document.querySelectorAll(
-      `#q-container-${index} input[type="radio"]`,
-    );
-    const nextButton = document.getElementById(`next-btn-${index}`);
-
-    const isChecked = Array.from(currentInputs).some((input) => input.checked);
-    if (nextButton) {
-      nextButton.disabled = !isChecked;
-    }
-
-    // Auto-advance when user selects an option (only if there's a next button)
-    if (
-      isChecked &&
-      nextButton &&
-      (typeof arguments[1] === "boolean" ? arguments[1] : false)
-    ) {
-      // initialize timeout store
-      window._advanceTimeouts = window._advanceTimeouts || {};
-      if (window._advanceTimeouts[index]) {
-        clearTimeout(window._advanceTimeouts[index]);
+  function refreshCircles(qidx) {
+    const container = document.getElementById(`q-container-${qidx}`);
+    container.querySelectorAll("label").forEach((label) => {
+      const input = label.querySelector('input[type="radio"]');
+      const circle = label.querySelector(".radio-circle");
+      const dot = label.querySelector(".radio-dot");
+      if (input.checked) {
+        circle.classList.add(
+          "border-emerald-500",
+          "bg-emerald-50",
+          "scale-110",
+        );
+        circle.classList.remove("border-outline-variant", "bg-white");
+        dot.classList.remove("scale-0");
+        dot.classList.add("scale-100");
+      } else {
+        circle.classList.remove(
+          "border-emerald-500",
+          "bg-emerald-50",
+          "scale-110",
+        );
+        circle.classList.add("border-outline-variant", "bg-white");
+        dot.classList.add("scale-0");
+        dot.classList.remove("scale-100");
       }
-      // small delay to allow the checked style to render
-      window._advanceTimeouts[index] = setTimeout(function () {
-        // ensure still visible and still checked
-        const container = document.getElementById(`q-container-${index}`);
-        if (container && container.style.display !== "none") {
-          const stillChecked = Array.from(currentInputs).some((i) => i.checked);
-          if (stillChecked) nextStep(index);
-        }
-        delete window._advanceTimeouts[index];
-      }, 220);
-    }
+    });
   }
 
-  function nextStep(index) {
-    // ឆែកមើលថាមានរើសចម្លើយឬនៅ
-    const currentInputs = document.querySelectorAll(
-      `#q-container-${index} input[type="radio"]`,
-    );
-    const isChecked = Array.from(currentInputs).some((input) => input.checked);
+ function handleRadioChange(input) {
+    const qidx = parseInt(input.dataset.qidx);
+    const totalQuestions = {{ questions|length }};  
+    refreshCircles(qidx);
 
+ 
+    const nextButton = document.getElementById(`next-btn-${qidx}`);
+    if (nextButton) nextButton.disabled = false;
+
+    
+    if (qidx < totalQuestions) {
+        clearTimeout(window._advanceTimer);
+        window._advanceTimer = setTimeout(() => {
+            const container = document.getElementById(`q-container-${qidx}`);
+            if (container && container.style.display !== 'none') {
+                nextStep(qidx);
+            }
+        }, 0);
+    }
+  
+}
+
+  function nextStep(index) {
+    const container = document.getElementById(`q-container-${index}`);
+    const inputs = container.querySelectorAll('input[type="radio"]');
+    const isChecked = Array.from(inputs).some((i) => i.checked);
     if (!isChecked) {
       alert("សូមជ្រើសរើសចម្លើយមួយមុននឹងបន្ត!");
       return;
     }
-
-    // លាក់សំណួរបច្ចុប្បន្ន បង្ហាញសំណួរបន្ទាប់
-    document.getElementById(`q-container-${index}`).style.display = "none";
-    document.getElementById(`q-container-${index + 1}`).style.display = "block";
-    // update state of the newly shown question so its next button reflects any previous selection
-    updateQuestionState(index + 1);
+    container.style.display = "none";
+    const next = document.getElementById(`q-container-${index + 1}`);
+    if (next) {
+      next.style.display = "block";
+      // FIX 1: refresh circles on the new question in case user came back to it before
+      refreshCircles(index + 1);
+      const nextBtn = document.getElementById(`next-btn-${index + 1}`);
+      if (nextBtn) {
+        const alreadyChecked = Array.from(
+          next.querySelectorAll('input[type="radio"]'),
+        ).some((i) => i.checked);
+        nextBtn.disabled = !alreadyChecked;
+      }
+    }
     window.scrollTo(0, 0);
   }
 
   function prevStep(index) {
     document.getElementById(`q-container-${index}`).style.display = "none";
-    document.getElementById(`q-container-${index - 1}`).style.display = "block";
-    // ensure Next button on the previous question is set correctly when returning
-    updateQuestionState(index - 1);
+    const prev = document.getElementById(`q-container-${index - 1}`);
+    if (prev) {
+      prev.style.display = "block";
+      refreshCircles(index - 1);
+      const prevNextBtn = document.getElementById(`next-btn-${index - 1}`);
+      if (prevNextBtn) {
+        const alreadyChecked = Array.from(
+          prev.querySelectorAll('input[type="radio"]'),
+        ).some((i) => i.checked);
+        prevNextBtn.disabled = !alreadyChecked;
+      }
+    }
     window.scrollTo(0, 0);
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
-    document
-      .querySelectorAll(".question-container")
-      .forEach(function (_, position) {
-        updateQuestionState(position + 1);
-      });
+  document.addEventListener("DOMContentLoaded", () => {
+    // Init first question state
+    refreshCircles(1);
   });
 </script>
 
