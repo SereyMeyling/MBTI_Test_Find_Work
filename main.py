@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from dbs.connection import db
 from view import views
@@ -16,11 +17,18 @@ from controller.auth_controller import auth
 def create_app():
     app = Flask(__name__)
 
-    app.config['SECRET_KEY'] = 'dev'
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev')
 
-    # MySQL (WAMP) Connection
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost:3306/mbti'
+  
+    db_user = os.getenv('DB_USER', 'root')
+    db_password = os.getenv('DB_PASSWORD', '')
+    db_host = os.getenv('DB_HOST', 'localhost')
+    db_port = os.getenv('DB_PORT', '3306')
+    db_name = os.getenv('DB_NAME', 'mbti')
 
+    app.config['SQLALCHEMY_DATABASE_URI'] = (
+        f"mysql+pymysql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+    )
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Initialize database
